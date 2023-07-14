@@ -46,16 +46,17 @@ def get_appartements_info():
     soup = BeautifulSoup(html, "html.parser")
     
     result = ""
+    raw_text2 = ""
     page = soup.find_all("div",class_="mainPageContainer")
     for data in page:
-        print("data: ", data)
         raw_text1 = data.get_text().split("Créer")[:-1]
         raw_text2 = ",".join(raw_text1).split("Appartement")
 
     for line in raw_text2:
+        print("line: ", line)
         if ("€par mois" in line):
             result = result + '\n' + '🏠' + line + '\n' + "-----------"
-    
+
     browser.close()
     return result
 
