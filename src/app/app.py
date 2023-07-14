@@ -1,4 +1,7 @@
-from app import scraper, line_bot, slack_bot
+# from app import scraper, line_bot, slack_bot
+import scraper
+import line_bot
+import slack_bot
 from dotenv import load_dotenv
 
 load_dotenv()

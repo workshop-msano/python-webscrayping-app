@@ -24,10 +24,15 @@ RUN yum install -y $(cat /tmp/chrome-deps.txt)
 COPY requirements.txt /tmp/
 RUN python3 -m pip install --upgrade pip -q
 RUN python3 -m pip install -r /tmp/requirements.txt -q 
-COPY app/ ./app/
+# COPY app/ ./app/
+COPY app/ ${LAMBDA_TASK_ROOT}
+
 
 COPY --from=stage /opt/chrome /opt/chrome
 COPY --from=stage /opt/chromedriver /opt/chromedriver
-COPY /app/app.py ${LAMBDA_TASK_ROOT}
 
-CMD [ "app.app.handler" ]
+# COPY app/app.py ${LAMBDA_TASK_ROOT}
+# CMD [ "app.app.handler" ]
+
+# COPY app.py ${LAMBDA_TASK_ROOT}
+CMD [ "app.handler" ]
