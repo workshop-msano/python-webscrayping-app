@@ -7,11 +7,16 @@
 # from selenium.webdriver.common.by import By
 # from selenium.webdriver.chrome.options import Options
 # from bs4 import BeautifulSoup
-from app import scraper
+from app import scraper, line_bot
+from dotenv import load_dotenv
+load_dotenv()
 
 def handler(event=None, context=None):
-    scraper.get_currency_trend()
-    print("hello")
+    currency_data = ""
+    while currency_data == "":
+        currency_data = scraper.get_currency_trend()
+    print("currency_data: ", currency_data)
+    line_bot.post(currency_data)
     # utils.scraper.get_currency_trend()
     # service = Service(executable_path='/opt/chromedriver')
 

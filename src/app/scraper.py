@@ -34,7 +34,6 @@ def get_currency_trend():
     soup = BeautifulSoup(html, "html.parser")
 
     result = soup.select_one("body > div.l-contents.mt10 > main > div.pairbox > div:nth-child(2) > div > div.pairbox__rate > span.pairbox__rate__item")
-    print("result: ", result)
     return "💰 " + result.get_text() + " yen/1euro"
 
 
