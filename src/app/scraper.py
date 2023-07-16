@@ -5,16 +5,6 @@ import os
 
 def setup():
 
-    # service = Service(executable_path='/opt/chromedriver')
-    # options = webdriver.ChromeOptions()
-    # options.binary_location = "/opt/chrome/chrome"
-    # options.add_argument("--headless")
-    # options.add_argument("--disable-gpu")
-    # options.add_argument("--hide-scrollbars")
-    # options.add_argument("--single-process")
-    # options.add_argument("--ignore-certificate-errors")
-    # options.add_argument("--no-sandbox")
-    # options.add_argument("--homedir=/tmp")
     service = Service(executable_path='/opt/chromedriver')
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = "/opt/chrome/chrome"
@@ -42,7 +32,7 @@ def setup():
 
 def get_currency_trend():
     browser = setup()
-    browser.get(os.environ["CURRENCY_URL"])
+    browser.get("https://fx.minkabu.jp/pair/EURJPY")
 
     html = browser.page_source.encode('utf-8')
 
@@ -54,7 +44,7 @@ def get_currency_trend():
 
 def get_appartements_info():
     browser = setup()
-    browser.get(os.environ["APARTMENTS_URL"])
+    browser.get("https://www.bienici.com/recherche/location/tours-37000/2-pieces-et-plus?mode=carte")
     
     html = browser.page_source.encode('utf-8')
     

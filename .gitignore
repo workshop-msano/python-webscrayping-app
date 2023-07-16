@@ -246,3 +246,4 @@ $RECYCLE.BIN/
 bkfiles
 app_bk
 .dockerignore
+sample.txt
