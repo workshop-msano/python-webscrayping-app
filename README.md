@@ -119,6 +119,11 @@ To contribute to the project, follow these steps:
 
 6. Wait for the project maintainers to review and merge your pull request.
 
+## Further more... 
+
+It's possible to trigger a Lambda function by a specific time using EventBridge. By utilizing EventBridge rules, you can schedule the execution of your Lambda function at a predetermined time. This allows you to automate the retrieval of data without manual intervention. 
+[Amazon EventBridge](https://aws.amazon.com/eventbridge/?nc1=h_ls)
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

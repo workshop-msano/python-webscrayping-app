@@ -86,4 +86,5 @@ def get_appartements_info():
 if __name__ == "__main__":
     get_currency_trend()
     get_appartements_info()
+    get_weather_info()
 
