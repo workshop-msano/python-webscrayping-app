@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
-import os
+import os, math
 
 def setup():
 
@@ -21,7 +21,6 @@ def setup():
     #chrome_options.add_argument("--data-path=/tmp/chrome-user-data")
     #chrome_options.add_argument("--disk-cache-dir=/tmp/chrome-user-data")
 
-
     #ブラウザの定義
     browser = webdriver.Chrome(
         service=service,
@@ -29,22 +28,40 @@ def setup():
     )
     return browser
 
+def convert_fahrenheit_to_celsius(num):
+    return math.floor((num-32)*5/9)
 
-def get_currency_trend():
+def get_weather_info():
     browser = setup()
-    browser.get("https://fx.minkabu.jp/pair/EURJPY")
+    browser.get(os.environ['WEATHER_URL'])
 
     html = browser.page_source.encode('utf-8')
 
     soup = BeautifulSoup(html, "html.parser")
 
+    weather = soup.select_one("#WxuCurrentConditions-main-eb4b02cb-917b-45ec-97ec-d4eb947f6b6a > div > section > div > div > div.CurrentConditions--body--l_4-Z > div.CurrentConditions--columns--30npQ > div.CurrentConditions--primary--2DOqs > div.CurrentConditions--phraseValue--mZC_p")
+    day_temp = soup.select_one("#WxuCurrentConditions-main-eb4b02cb-917b-45ec-97ec-d4eb947f6b6a > div > section > div > div > div.CurrentConditions--body--l_4-Z > div.CurrentConditions--columns--30npQ > div.CurrentConditions--primary--2DOqs > div.CurrentConditions--tempHiLoValue--3T1DG > span:nth-child(1)")
+    day_temp = convert_fahrenheit_to_celsius(int(day_temp.get_text()[:-1]))
+    night_temp = soup.select_one("#WxuCurrentConditions-main-eb4b02cb-917b-45ec-97ec-d4eb947f6b6a > div > section > div > div > div.CurrentConditions--body--l_4-Z > div.CurrentConditions--columns--30npQ > div.CurrentConditions--primary--2DOqs > div.CurrentConditions--tempHiLoValue--3T1DG > span:nth-child(2)")
+    night_temp = convert_fahrenheit_to_celsius(int(night_temp.get_text()[:-1]))
+    uv_index = soup.select_one("#todayDetails > section > div > div.TodayDetailsCard--detailsContainer--2yLtL > div:nth-child(6) > div.WeatherDetailsListItem--wxData--kK35q > span")
+    return f"🌍 Today's weather\n\n{weather.get_text()}. \nDay {day_temp}°/Night {night_temp}°\nUV index: {uv_index.get_text()}"
+
+
+def get_currency_trend():
+    browser = setup()
+    browser.get(os.environ['CURRENCY_URL'])
+    html = browser.page_source.encode('utf-8')
+
+    soup = BeautifulSoup(html, "html.parser")
+
     result = soup.select_one("body > div.l-contents.mt10 > main > div.pairbox > div:nth-child(2) > div > div.pairbox__rate > span.pairbox__rate__item")
-    return "💰 " + result.get_text() + " yen/1euro"
+    return f"💰 {result.get_text()} yen to 1 euro"
 
 
 def get_appartements_info():
     browser = setup()
-    browser.get("https://www.bienici.com/recherche/location/tours-37000/2-pieces-et-plus?mode=carte")
+    browser.get(os.environ['APARTMENTS_URL'])
     
     html = browser.page_source.encode('utf-8')
     
@@ -58,7 +75,7 @@ def get_appartements_info():
         raw_text2 = ",".join(raw_text1).split("Appartement")
 
     for line in raw_text2:
-        print("line: ", line)
+        # print("line: ", line)
         if ("€par mois" in line):
             result = result + '\n' + '🏠' + line + '\n' + "-----------"
 
