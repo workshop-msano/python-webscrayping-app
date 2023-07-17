@@ -11,6 +11,7 @@ This is a Python application that demonstrates web scraping techniques using AWS
   - [Prerequisites](#prerequisites)
   - [Virtual Environment](#virtual-environment)
 - [Usage](#usage)
+  - [Configure Slack and LINE](#configure-slack-and-line)
   - [Customize the Scraping Logic](#customize-the-scraping-logic)
   - [Set up AWS Lambda](#set-up-aws-lambda)
   - [Configure AWS Credentials](#configure-aws-credentials)
@@ -53,6 +54,20 @@ Before proceeding, ensure that you have the following tools installed and config
 It is strongly recommended to set up a virtual environment to isolate the project dependencies. Follow the appropriate instructions for your preferred virtual environment tool (e.g., `virtualenv` or `conda`) to create and activate a virtual environment for the project.
 
 ## Usage
+
+### Configure Slack and LINE
+
+ 1. Create a `.env` file in the project directory.
+  
+ 2. In the `.env` file, set values with your API token:
+
+    like...
+     ```
+     BOT_USER_OAUTH_TOKEN=<your_slack_api_token>
+     ```
+     
+- Slack: [Sending messages](https://api.slack.com/messaging/sending)
+- LINE: [Building a bot](https://developers.line.biz/en/docs/messaging-api/building-bot/)
 
 ### Customize the Scraping Logic
 
