@@ -1,114 +1,132 @@
-# scrayping-selenium-lambda-python3.9
+# Python Web Scraping with AWS Lambda
 
-This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
+[![Python Web Scraping](https://img.shields.io/badge/Python-Web%20Scraping-blue?style=flat-square)](https://github.com/workshop-msano/python-webscrayping-app)
+[![License](https://img.shields.io/github/license/workshop-msano/python-webscrayping-app?style=flat-square)](LICENSE)
 
-- hello_world - Code for the application's Lambda function and Project Dockerfile.
-- events - Invocation events that you can use to invoke the function.
-- tests - Unit tests for the application code. 
-- template.yaml - A template that defines the application's AWS resources.
+This is a Python application that demonstrates web scraping techniques using AWS Lambda and the AWS Toolkit for VSCode. It provides a flexible framework for scraping web pages, parsing data, and leveraging AWS serverless functions for scalable web scraping.
 
-The application uses several AWS resources, including Lambda functions and an API Gateway API. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
+## Table of Contents
 
-## Deploy the sample application
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Virtual Environment](#virtual-environment)
+- [Usage](#usage)
+  - [Customize the Scraping Logic](#customize-the-scraping-logic)
+  - [Set up AWS Lambda](#set-up-aws-lambda)
+  - [Configure AWS Credentials](#configure-aws-credentials)
+  - [Build and Test](#build-and-test)
+  - [Deploy the Application to AWS Lambda](#deploy-the-application-to-aws-lambda)
+  - [Monitor the Execution and Results](#monitor-the-execution-and-results)
+- [Contributing](#contributing)
+- [License](#license)
 
-The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
+## Installation
 
-To use the SAM CLI, you need the following tools.
+1. Clone the repository:
 
-* SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-* Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
+   ```shell
+   git clone https://github.com/workshop-msano/python-webscrayping-app.git
+   ```
 
-You may need the following for local testing.
-* [Python 3 installed](https://www.python.org/downloads/)
+2. Navigate to the project directory:
 
-To build and deploy your application for the first time, run the following in your shell:
+   ```shell
+   cd python-webscrayping-app
+   ```
 
-```bash
+3. Install the required dependencies using pip:
+   <br/><sub>Creating a virtual environment is strongly recommended.</sub>
+
+   ```shell
+   pip install -r requirements.txt
+   ```
+
+### Prerequisites
+
+Before proceeding, ensure that you have the following tools installed and configured:
+
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [SAM CLI](https://aws.amazon.com/serverless/sam/)
+
+### Virtual Environment
+
+It is strongly recommended to set up a virtual environment to isolate the project dependencies. Follow the appropriate instructions for your preferred virtual environment tool (e.g., `virtualenv` or `conda`) to create and activate a virtual environment for the project.
+
+## Usage
+
+### Customize the Scraping Logic
+
+Open the `scraper.py` file and modify the code to define the specific web scraping rules based on your requirements.
+
+### Set up AWS Lambda
+
+Follow the AWS documentation to create an AWS Lambda function and configure the necessary permissions and triggers.
+
+### Configure AWS Credentials
+
+Install the [AWS Toolkit for VSCode](https://aws.amazon.com/visualstudiocode/) and set up your AWS credentials using the AWS Command Line Interface (CLI) or VSCode's integrated AWS credentials management.
+
+### Build and Test
+
+To build the application locally and test it:
+
+```shell
 sam build
+sam local invoke
+```
+
+### Deploy the Application to AWS Lambda
+
+To deploy the application to AWS Lambda:
+
+```shell
 sam deploy --guided
 ```
 
-The first command will build a docker image from a Dockerfile and then copy the source of your application inside the Docker image. The second command will package and deploy your application to AWS, with a series of prompts:
+This will also create a `samconfig.toml` file that contains the deployment configurations. For subsequent deployments, simply run `sam deploy` to deploy the app.
 
-* **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
-* **AWS Region**: The AWS region you want to deploy your app to.
-* **Confirm changes before deploy**: If set to yes, any change sets will be shown to you before execution for manual review. If set to no, the AWS SAM CLI will automatically deploy application changes.
-* **Allow SAM CLI IAM role creation**: Many AWS SAM templates, including this example, create AWS IAM roles required for the AWS Lambda function(s) included to access AWS services. By default, these are scoped down to minimum required permissions. To deploy an AWS CloudFormation stack which creates or modifies IAM roles, the `CAPABILITY_IAM` value for `capabilities` must be provided. If permission isn't provided through this prompt, to deploy this example you must explicitly pass `--capabilities CAPABILITY_IAM` to the `sam deploy` command.
-* **Save arguments to samconfig.toml**: If set to yes, your choices will be saved to a configuration file inside the project, so that in the future you can just re-run `sam deploy` without parameters to deploy changes to your application.
+### Monitor the Execution and Results
 
-You can find your API Gateway Endpoint URL in the output values displayed after deployment.
+Check the AWS CloudWatch logs and the output generated by the Lambda function to view the scraped data.
 
-## Use the SAM CLI to build and test locally
+## Contributing
 
-Build your application with the `sam build` command.
+Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request. Your input is highly appreciated.
 
-```bash
-scrayping-selenium-lambda-python3.9$ sam build
-```
+To contribute to the project, follow these steps:
 
-The SAM CLI builds a docker image from a Dockerfile and then installs dependencies defined in `hello_world/requirements.txt` inside the docker image. The processed template file is saved in the `.aws-sam/build` folder.
+1. Fork the repository.
 
-Test a single function by invoking it directly with a test event. An event is a JSON document that represents the input that the function receives from the event source. Test events are included in the `events` folder in this project.
+2. Create a new branch:
 
-Run functions locally and invoke them with the `sam local invoke` command.
+   ```shell
+   git checkout -b my-feature-branch
+   ```
 
-```bash
-scrayping-selenium-lambda-python3.9$ sam local invoke HelloWorldFunction --event events/event.json
-```
+3. Make your changes and commit them:
 
-The SAM CLI can also emulate your application's API. Use the `sam local start-api` to run the API locally on port 3000.
+   ```shell
+   git commit -m "Add new feature"
+   ```
 
-```bash
-scrayping-selenium-lambda-python3.9$ sam local start-api
-scrayping-selenium-lambda-python3.9$ curl http://localhost:3000/
-```
+4. Push your changes to the forked repository:
 
-The SAM CLI reads the application template to determine the API's routes and the functions that they invoke. The `Events` property on each function's definition includes the route and method for each path.
+   ```shell
+   git push origin my-feature-branch
+   ```
 
-```yaml
-      Events:
-        HelloWorld:
-          Type: Api
-          Properties:
-            Path: /hello
-            Method: get
-```
+5. Open a pull request with a detailed description of your changes.
 
-## Add a resource to your application
-The application template uses AWS Serverless Application Model (AWS SAM) to define application resources. AWS SAM is an extension of AWS CloudFormation with a simpler syntax for configuring common serverless application resources such as functions, triggers, and APIs. For resources not included in [the SAM specification](https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md), you can use standard [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) resource types.
+6. Wait for the project maintainers to review and merge your pull request.
 
-## Fetch, tail, and filter Lambda function logs
+## License
 
-To simplify troubleshooting, SAM CLI has a command called `sam logs`. `sam logs` lets you fetch logs generated by your deployed Lambda function from the command line. In addition to printing the logs on the terminal, this command has several nifty features to help you quickly find the bug.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-`NOTE`: This command works for all AWS Lambda functions; not just the ones you deploy using SAM.
+---
 
-```bash
-scrayping-selenium-lambda-python3.9$ sam logs -n HelloWorldFunction --stack-name "scrayping-selenium-lambda-python3.9" --tail
-```
+Feel free to explore, use, and enhance this web scraping application. If you have any questions or need assistance, please don't hesitate to reach out. Happy web scraping!
 
-You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
+### Reference
 
-## Unit tests
-
-Tests are defined in the `tests` folder in this project. Use PIP to install the [pytest](https://docs.pytest.org/en/latest/) and run unit tests from your local machine.
-
-```bash
-scrayping-selenium-lambda-python3.9$ pip install pytest pytest-mock --user
-scrayping-selenium-lambda-python3.9$ python -m pytest tests/ -v
-```
-
-## Cleanup
-
-To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
-
-```bash
-sam delete --stack-name "scrayping-selenium-lambda-python3.9"
-```
-
-## Resources
-
-See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
-
-Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
-# python-webscrayping-app
+[Run Selenium in AWS Lambda for UI testing](https://cloudbytes.dev/snippets/run-selenium-in-aws-lambda-for-ui-testing)
